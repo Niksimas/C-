@@ -1,11 +1,9 @@
 #pragma once
-//#include <stdlib.h>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <fstream>
 #include "people_record.h"
-#include "office.h"
 
 using namespace std;
 
@@ -18,7 +16,6 @@ public:
         n = 1;
         Record newr = Record();
         recordes.emplace_back(newr);
-        read_from_file();
     }
     void print() {
         for (int i = 0; i < n; i++) {
@@ -75,14 +72,14 @@ public:
         ofstream out_data("record.txt", ios::out);
         if (!out_data.is_open()) cout << "Errors open file!\n";
         else {
-            out_data << recordes.size();
+            out_data << recordes.size() << endl;
             for (int i = 0; i < n; i++) {
                 out_data
                 << recordes[i].get_zakazchik().get_name() << "\n"
                 << recordes[i].get_zakazchik().get_surname() << "\n"
                 << recordes[i].get_zakazchik().get_email() << "\n"
                 << recordes[i].get_name_project() << "\n"
-                << recordes[i].get_description() << "\n";
+                << recordes[i].get_description() << "\nk\n";
             }
         }
         out_data.close();
@@ -93,14 +90,17 @@ public:
         if (!in_data.is_open())cout << "Errors open file!\n";
         else {
             int k = 0;
-            string name="def", surname="def", email="def", name_proj="def", description="def";
+            string name="def", surname="def", email="def", name_proj="def", tmp_description="test", description="";
             Record newr = Record();
             in_data >> k;
-            cout << k << "  " << recordes.size();
             for (; 0 < k; k--) {
                 n++;
-                in_data >> name >> surname >> email >> name_proj >> description;
-                cout << name << "--" << surname << "--" << email << "--" << name_proj << "--" << description;
+                in_data >> name >> surname >> email >> name_proj;
+                while (true){
+                    in_data >> tmp_description;
+                    if (tmp_description == "k")break;
+                    description = description + " " + tmp_description;
+                }
                 newr.set_name_project(name_proj);
                 newr.set_description(description);
                 newr.set_zakazchik(name, surname, email);
