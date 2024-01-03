@@ -1,5 +1,5 @@
 #include <iostream>
-#include "office.h"
+#include "manager_office.h"
 using namespace std;
 
 class controller {
@@ -9,6 +9,7 @@ private:
 public:
     controller() {name="default";}
     void execute() {
+        office_development.read_from_file();
         while (true) {
             menu();
             int num_comm = 0;
